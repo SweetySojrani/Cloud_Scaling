@@ -6,7 +6,7 @@
  
 - Understanding the requirement of the project.
 - Read on the Nosql db options for CP and AP and choose one for each
-- Started with MongoDB for AP and created replication on Mongodb of 5 nodes on AWS.														
+- Started with MongoDB for CP and created replication on Mongodb of 5 nodes on AWS.														
 
 
 **Challenges: How does network partition work on MongoDB Replication.

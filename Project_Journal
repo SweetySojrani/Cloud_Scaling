@@ -1,4 +1,4 @@
-# CMPE 281 - Personal NoSQL Project
+**CMPE 281 - Personal NoSQL Project**
 
 # Weekly progress and challenge
 
@@ -13,7 +13,7 @@
 
 # Week2: (19-Oct-18- 27-Oct-18) 
 
-- Successfully created MongoDB replication and implemented network partition.
+- Successfully created MongoDB replication and topologyof 5 nodes to test network partition in CP.
 
 # Steps to create AP cluster of 5 nodes
 Project Journal
@@ -34,7 +34,7 @@ Launch Ubuntu Server 16.04 LTS
 SSH into Mongo Instance
 ssh -i <key>.pem ubuntu@<public ip>
 
-# Install MongoDB
+**Install MongoDB**
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 
@@ -44,27 +44,26 @@ sudo apt update
 
 sudo apt install mongodb-org=4.0.1 mongodb-org-server=4.0.1 mongodb-org-shell=4.0.1 mongodb-org-mongos=4.0.1 mongodb-org-tools=4.0.1
 
-=== Start/Stop and Install Verification ===
+**MongoDB Install Verification**
 
 sudo systemctl enable mongod
 sudo systemctl start mongod 
 sudo systemctl stop mongod
 sudo systemctl restart mongod
-
 mongod --version 
 sudo systemctl enable mongod.service
-   sudo service mongod restart
-    sudo service mongod status
+sudo service mongod restart
+sudo service mongod status
 
 
-# MongoDB Keyfile
+**MongoDB Keyfile**
 openssl rand -base64 741 > keyFile
 sudo mkdir -p /opt/mongodb
 sudo cp keyFile /opt/mongodb
 sudo chown mongodb:mongodb /opt/mongodb/keyFile
 sudo chmod 0600 /opt/mongodb/keyFile
 
-# Config mongod.conf
+**Config mongod.conf**
 
 sudo vi /etc/mongod.conf
 
@@ -114,16 +113,19 @@ Save to AMI Image
 Save the EC2 instance AMI image and create 4 more EC2 instances of MongoDB
 
 
-In Primary instance:
+**Create Replication set**
 1. Edit /etc/hosts in each EC2 Instance adding local host names for Public Ips.
 make the hostname as Primary, Secondary1,Secondary2 as per the topology
 - sudo nano /etc/hosts
+eg. <Public_ip_address> Primary
+    <Public_ip_address> Secondary1
 
 2. Update the hostname:
 - sudo hostnamectl set-hostname Primary
 - sudo hostname -f
 - sudo reboot
 
+Similarly update the hostname for all the secondary instances as well as Secondary1, Secondary2 and so forth
 
 3. Create the replication set
 Login to Primary: >mongo
@@ -157,7 +159,34 @@ Check the status of the replication set with members consisting of 1 primary and
 
 rs.status();
 
+**Next steps:** 
+- Create the test cases to find the behaviour of the cluster in different scenarios.
+- Create a network partition approach.
 
-**Next steps: Create the test cases to find the behaviour of the cluster in different scenarios.
+# Week2: (28-Oct-18- 03-Nov-18)
+
+**Create Network Partition using iptables firewall**
+1. Choose a secondary instance that needs to be partitioned from rest of the replication set nodes
+
+2. List the existing iptables on the secondary2 instance using below command
+   sudo iptables -S 
+   
+3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting      any of the instances in the replication set. 
+   sudo iptables -A INPUT -s <ip-address> -j DROP
+   Add 4 rules one for each of the instance's public ip address for primary, secondary1, secondary3, secondary4, secondary5
+   
+4. Once the rules are added, run below commands to check the replication set status in Primary node
+    mongo
+    use admin
+    db.auth('admin','xxxxx')
+    rs.status()
+    
+    This will show that the secondary2 node is not reachable/healthy in the replication set and hence not available.
+    
+   Now that the network partition is created, we can test the experiments on consistency of data.
+   
+
+# Week2: (04-Nov-18- 10-Nov-18)
+
 
 

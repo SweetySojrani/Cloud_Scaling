@@ -192,7 +192,6 @@ eg. <Public_ip_address> Primary
 Below are the results of test experiments:
 
 
-|-------------|------------------|---------------------------|---------------|
 |Test Case No | Test Case        | Result expected           | Actual Result |
 |-------------|------------------|---------------------------|---------------|
 |     1       | Before Partition |                           |               |

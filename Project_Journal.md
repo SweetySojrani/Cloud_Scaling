@@ -70,7 +70,7 @@ sudo vi /etc/mongod.conf
 1.  remove or comment out bindIp: 127.0.0.1
     replace with bindIp: 0.0.0.0 (binds on all ips) 
 
-    # network interfaces
+    #network interface
     net:
         port: 27017
         bindIp: 0.0.0.0
@@ -163,7 +163,7 @@ rs.status();
 - Create the test cases to find the behaviour of the cluster in different scenarios.
 - Create a network partition approach.
 
-# Week2: (28-Oct-18- 03-Nov-18)
+# Week3: (28-Oct-18- 03-Nov-18)
 
 **Create Network Partition using iptables firewall**
 1. Choose a secondary instance that needs to be partitioned from rest of the replication set nodes
@@ -186,7 +186,7 @@ rs.status();
    Now that the network partition is created, we can test the experiments on consistency of data.
    
 
-# Week2: (04-Nov-18- 10-Nov-18)
+# Week4: (04-Nov-18- 10-Nov-18)
 
 
 

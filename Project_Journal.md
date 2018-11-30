@@ -16,7 +16,6 @@
 - Successfully created MongoDB replication and topologyof 5 nodes to test network partition in CP.
 
 # Steps to create AP cluster of 5 nodes
-Project Journal
 
 **Setup MongoDB Cluster of 5 nodes**
 
@@ -77,17 +76,17 @@ sudo vi /etc/mongod.conf
 
 2. Uncomment security section & add key file
 
-security:
-    keyFile: /opt/mongodb/keyFile
+   security:
+        keyFile: /opt/mongodb/keyFile
 
 3. Uncomment Replication section. Name Replica Set = cmpe281
 
-replication:
-    replSetName: cmpe281
+   replication:
+     replSetName: cmpe281
 
 4. Create mongod.service
 
-sudo vi /etc/systemd/system/mongod.service
+   sudo vi /etc/systemd/system/mongod.service
 
     [Unit]
         Description=High-performance, schema-free document-oriented database
@@ -102,62 +101,64 @@ sudo vi /etc/systemd/system/mongod.service
 
 5. Enable Mongo Service
 
-    sudo systemctl enable mongod.service
+   sudo systemctl enable mongod.service
 
 6. Restart MongoDB to apply our changes
 
-    sudo service mongod restart
-    sudo service mongod status
+   sudo service mongod restart
+   sudo service mongod status
 
-Save to AMI Image
-Save the EC2 instance AMI image and create 4 more EC2 instances of MongoDB
+   Save to AMI Image
+   Save the EC2 instance AMI image and create 4 more EC2 instances of MongoDB
 
 
 **Create Replication set**
 1. Edit /etc/hosts in each EC2 Instance adding local host names for Public Ips.
-make the hostname as Primary, Secondary1,Secondary2 as per the topology
+   make the hostname as Primary, Secondary1,Secondary2 as per the topology
+
 - sudo nano /etc/hosts
+
 eg. <Public_ip_address> Primary
     <Public_ip_address> Secondary1
 
 2. Update the hostname:
-- sudo hostnamectl set-hostname Primary
-- sudo hostname -f
-- sudo reboot
+   - sudo hostnamectl set-hostname Primary
+   - sudo hostname -f
+   - sudo reboot
 
-Similarly update the hostname for all the secondary instances as well as Secondary1, Secondary2 and so forth
+   Similarly update the hostname for all the secondary instances as well as Secondary1, Secondary2 and so forth
 
 3. Create the replication set
-Login to Primary: >mongo
+   Login to Primary: >mongo
 
-- rs.initiate()
+   - rs.initiate()
 
-Show the replication set details:  Below command will show primary added to it.
-- rs.status()
+   Show the replication set details:  Below command will show primary added to it.
+   - rs.status()
 
 
-Note: Make the node as Primary first and then create the user
+   Note: Make the node as Primary first and then create the user
 
-- use admin
-- db.createUser( {
+   - use admin
+   - db.createUser( {
         user: "admin",
         pwd: “xxxxxx",
         roles: [{ role: "root", db: "admin" }]
     });
 
 
-login using admin
-- db.auth(‘admin’,’xxxxx’);
+   login using admin
+   - db.auth(‘admin’,’xxxxx’);
 
-Add the secondary nodes to the replication set
-rs.add("Secondary1:27017");
-rs.add("Secondary2:27017");
-rs.add("Secondary3:27017");
-rs.add("Secondary4:27017");
+   Add the secondary nodes to the replication set
+   rs.add("Secondary1:27017");
+   rs.add("Secondary2:27017");
+   rs.add("Secondary3:27017");
+   rs.add("Secondary4:27017");
 
-Check the status of the replication set with members consisting of 1 primary and 4 secondary nodes as per the topology for testing AP Partition
+   Check the status of the replication set with members consisting of 1 primary and 4 secondary nodes as per the topology for    testing AP Partition
 
-rs.status();
+   rs.status();
 
 **Next steps:** 
 - Create the test cases to find the behaviour of the cluster in different scenarios.
@@ -171,17 +172,17 @@ rs.status();
 2. List the existing iptables on the secondary2 instance using below command
    sudo iptables -S 
    
-3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting      any of the instances in the replication set. 
+3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting        any of the instances in the replication set. 
    sudo iptables -A INPUT -s <ip-address> -j DROP
    Add 4 rules one for each of the instance's public ip address for primary, secondary1, secondary3, secondary4, secondary5
    
 4. Once the rules are added, run below commands to check the replication set status in Primary node
-    mongo
-    use admin
-    db.auth('admin','xxxxx')
-    rs.status()
+   mongo
+   use admin
+   db.auth('admin','xxxxx')
+   rs.status()
     
-    This will show that the secondary2 node is not reachable/healthy in the replication set and hence not available.
+   This will show that the secondary2 node is not reachable/healthy in the replication set and hence not available.
     
    Now that the network partition is created, we can test the experiments on consistency of data.
    

@@ -189,13 +189,40 @@ eg. <Public_ip_address> Primary
 
 # Week4: (04-Nov-18- 10-Nov-18)
 
+1. Now, we have one primary and 4 secondary members in the replication set. 
+  Create a document in the primary mongodb instance:
+  >db.race.insert({Id: 1, RaceStatus: 'Start'})
+  
+- Query db.race.find() in Primary instance and the 4 secondary instances as well. It is found that the consistent data is read from all   the instances. This is the normal mode of the system. 
+
+2. Create the Network Partition
+Let's consider partition of Secondary2 instance from the system. For demonstration, I have achieved partition using firewall rules on the mongodb iptables. Below commands will be run on Secondary2 instance which will drop the incoming traffic from Primary, Secondary3, Secondary4, Secondary5 instances
+
+sudo iptables -A INPUT -s <ip address of Primary> -j DROP
+sudo iptables -A INPUT -s <ip address of Secondary3> -j DROP
+sudo iptables -A INPUT -s <ip address of Secondary4> -j DROP
+sudo iptables -A INPUT -s <ip address of Secondary5> -j DROP
+
+Once the firewall rules are created. Run the below command to check the status of replication set using 
+> rs.status()
+The Secondary2 member is now not reachable to the other members of the replication set.So, the network partition is created.
+
+3. Create new documents in Primary:
+db.race.insert({ Id: 2, RaceStatus: 'Run' })
+
+Query the document in all the member instances of the system. It is found that the paritioned instance Secondary2 is still reading the stale data.Since, secondary2 instance is a slave node and hence a read only node, so new data will not be created on this instance. 
+To achieve Consistency, 
+
+Perform the below tests before, during and after partition
+
 Below are the results of test experiments:
 
 
-|Test Case No | Test Case        | Result expected           | Actual Result |
-|-------------|------------------|---------------------------|---------------|
-|     1       | Before Partition |                           |               |
-|     2       | After Partition  |                           |               |
-|     3       | After Recovery   |                           |               |
+|Test No | Test Case        | Result                                                                                |
+|--------|------------------|---------------------------------------------------------------------------------------|
+|     1  | Before Partition |Data is consistent across all the members of the replication set                       |
+|     2  | After Partition  |Data is not consistent on the partitioned member                                       |
+|     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
+
 
 

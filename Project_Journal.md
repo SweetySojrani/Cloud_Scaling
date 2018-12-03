@@ -15,7 +15,7 @@
 
 - Successfully created MongoDB replication and topologyof 5 nodes to test network partition in CP.
 
-![alt text](https://github.com/nguyensjsu/cmpe281-SweetySojrani.git/Mongodb_Architecture.png)
+![mongodb_architecture](https://user-images.githubusercontent.com/42895383/49352456-d7aadc80-f66c-11e8-8ce6-c91dde72a656.png)
 
 # Steps to create AP cluster of 5 nodes
 

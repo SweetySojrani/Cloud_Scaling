@@ -209,7 +209,7 @@ eg. <Public_ip_address> Primary
    - rs.status()
    The Secondary2 member is now not reachable to the other members of the replication set.So, the network partition is created.
 
-3. Create new documents in Primary:
+   Create new documents in Primary:
    db.race.insert({ Id: 2, RaceStatus: 'Run' })
 
    Query the document in all the member instances of the system. It is found that the paritioned instance Secondary2 is still reading      the stale data.Since, secondary2 instance is a slave node and hence a read only node, so new data will not be created on this            instance. 
@@ -228,3 +228,10 @@ eg. <Public_ip_address> Primary
 
 
 
+3. Recover from the Network Partition. Use the below commands to delete the iptables rules that were created in Step2 to create Network    partition. 
+
+   sudo iptables -L --line-numbers\
+   sudo iptables -D INPUT 1
+
+   Once the partition is recovered , the Secondary2 instance will become available in the replication set again and read the new            document from Primary instance that was created after the Network Partition.
+  

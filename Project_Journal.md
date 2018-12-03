@@ -1,8 +1,8 @@
-**CMPE 281 - Personal NoSQL Project**
+# CMPE 281 - Personal NoSQL Project
 
-# Weekly progress and challenge
+## Weekly progress and challenge
 
-# Week1: (13-Oct-18- 19-Oct-18)  
+### Week1: (13-Oct-18- 19-Oct-18)  
  
 - Understanding the requirement of the project.
 - Read on the Nosql db options for CP and AP and choose one for each
@@ -11,13 +11,13 @@
 
 **Challenges: How does network partition work on MongoDB Replication.
 
-# Week2: (19-Oct-18- 27-Oct-18) 
+### Week2: (19-Oct-18- 27-Oct-18) 
 
 - Successfully created MongoDB replication and topologyof 5 nodes to test network partition in CP.
 
 ![mongodb_architecture](https://user-images.githubusercontent.com/42895383/49353574-5276f600-f673-11e8-9d34-beb9348180c3.png)
 
-# Steps to create AP cluster of 5 nodes
+**Steps to create AP cluster of 5 nodes
 
 **Setup MongoDB Cluster of 5 nodes**
 
@@ -166,7 +166,7 @@ eg. <Public_ip_address> Primary
 - Create the test cases to find the behaviour of the cluster in different scenarios.
 - Create a network partition approach.
 
-# Week3: (28-Oct-18- 03-Nov-18)
+### Week3: (28-Oct-18- 03-Nov-18)
 
 **Create Network Partition using iptables firewall**
 1. Choose a secondary instance that needs to be partitioned from rest of the replication set nodes
@@ -189,7 +189,7 @@ eg. <Public_ip_address> Primary
    Now that the network partition is created, we can test the experiments on consistency of data.
    
 
-# Week4: (04-Nov-18- 10-Nov-18)
+### Week4: (04-Nov-18- 10-Nov-18)
 
 1. Now, we have one primary and 4 secondary members in the replication set. 
   Create a document in the primary mongodb instance:
@@ -227,6 +227,7 @@ eg. <Public_ip_address> Primary
    |     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
 
 
+### Week4: (15-Nov-18- 22-Nov-18)
 
 3. Recover from the Network Partition. Use the below commands to delete the iptables rules that were created in Step2 to create Network    partition. 
 

@@ -153,9 +153,9 @@ eg. <Public_ip_address> Primary
    - db.auth(‘admin’,’xxxxx’);
 
    Add the secondary nodes to the replication set
-   rs.add("Secondary1:27017");
-   rs.add("Secondary2:27017");
-   rs.add("Secondary3:27017");
+   rs.add("Secondary1:27017");\
+   rs.add("Secondary2:27017");\
+   rs.add("Secondary3:27017");\
    rs.add("Secondary4:27017");
 
    Check the status of the replication set with members consisting of 1 primary and 4 secondary nodes as per the topology for    testing AP Partition
@@ -174,7 +174,7 @@ eg. <Public_ip_address> Primary
 2. List the existing iptables on the secondary2 instance using below command
    sudo iptables -S 
    
-3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting        any of the instances in the replication set. 
+3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting        any of the instances in the replication set.\
    sudo iptables -A INPUT -s <ip-address> -j DROP
    Add 4 rules one for each of the instance's public ip address for primary, secondary1, secondary3, secondary4, secondary5
    
@@ -198,16 +198,16 @@ eg. <Public_ip_address> Primary
 - Query db.race.find() in Primary instance and the 4 secondary instances as well. It is found that the consistent data is read from all   the instances. This is the normal mode of the system. 
 
 2. Create the Network Partition
-Let's consider partition of Secondary2 instance from the system. For demonstration, I have achieved partition using firewall rules on the mongodb iptables. Below commands will be run on Secondary2 instance which will drop the incoming traffic from Primary, Secondary3, Secondary4, Secondary5 instances
+   Let's consider partition of Secondary2 instance from the system. For demonstration, I have achieved partition using firewall rules on    the mongodb iptables. Below commands will be run on Secondary2 instance which will drop the incoming traffic from Primary,            Secondary3, Secondary4, Secondary5 instances
 
-sudo iptables -A INPUT -s <ip address of Primary> -j DROP
-sudo iptables -A INPUT -s <ip address of Secondary3> -j DROP
-sudo iptables -A INPUT -s <ip address of Secondary4> -j DROP
-sudo iptables -A INPUT -s <ip address of Secondary5> -j DROP
+   sudo iptables -A INPUT -s <ip address of Primary> -j DROP\
+   sudo iptables -A INPUT -s <ip address of Secondary3> -j DROP\
+   sudo iptables -A INPUT -s <ip address of Secondary4> -j DROP\
+   sudo iptables -A INPUT -s <ip address of Secondary5> -j DROP
 
-Once the firewall rules are created. Run the below command to check the status of replication set using 
-> rs.status()
-The Secondary2 member is now not reachable to the other members of the replication set.So, the network partition is created.
+   Once the firewall rules are created. Run the below command to check the status of replication set using 
+   - rs.status()
+   The Secondary2 member is now not reachable to the other members of the replication set.So, the network partition is created.
 
 3. Create new documents in Primary:
 db.race.insert({ Id: 2, RaceStatus: 'Run' })

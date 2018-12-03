@@ -174,7 +174,7 @@ eg. <Public_ip_address> Primary
 2. List the existing iptables on the secondary2 instance using below command
    sudo iptables -S 
    
-3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting        any of the instances in the replication set.\
+3. Add iptable firewall rules to the list using below command which will disallow the secondary2 instance from connecting any of the        instances in the replication set
    sudo iptables -A INPUT -s <ip-address> -j DROP
    Add 4 rules one for each of the instance's public ip address for primary, secondary1, secondary3, secondary4, secondary5
    
@@ -195,10 +195,10 @@ eg. <Public_ip_address> Primary
   Create a document in the primary mongodb instance:
   >db.race.insert({Id: 1, RaceStatus: 'Start'})
   
-- Query db.race.find() in Primary instance and the 4 secondary instances as well. It is found that the consistent data is read from all   the instances. This is the normal mode of the system. 
+  - Query db.race.find() in Primary instance and the 4 secondary instances as well. It is found that the consistent data is read from       all the instances. This is the normal mode of the system. 
 
 2. Create the Network Partition
-   Let's consider partition of Secondary2 instance from the system. For demonstration, I have achieved partition using firewall rules on    the mongodb iptables. Below commands will be run on Secondary2 instance which will drop the incoming traffic from Primary,            Secondary3, Secondary4, Secondary5 instances
+   Let's consider partition of Secondary2 instance from the system. For demonstration, I have achieved partition using firewall rules on    the mongodb iptables. Below commands will be run on Secondary2 instance which will drop the incoming traffic from Primary,              Secondary3, Secondary4, Secondary5 instances
 
    sudo iptables -A INPUT -s <ip address of Primary> -j DROP\
    sudo iptables -A INPUT -s <ip address of Secondary3> -j DROP\
@@ -210,21 +210,21 @@ eg. <Public_ip_address> Primary
    The Secondary2 member is now not reachable to the other members of the replication set.So, the network partition is created.
 
 3. Create new documents in Primary:
-db.race.insert({ Id: 2, RaceStatus: 'Run' })
+   db.race.insert({ Id: 2, RaceStatus: 'Run' })
 
-Query the document in all the member instances of the system. It is found that the paritioned instance Secondary2 is still reading the stale data.Since, secondary2 instance is a slave node and hence a read only node, so new data will not be created on this instance. 
-To achieve Consistency, 
+   Query the document in all the member instances of the system. It is found that the paritioned instance Secondary2 is still reading      the stale data.Since, secondary2 instance is a slave node and hence a read only node, so new data will not be created on this            instance. 
+   To achieve Consistency, 
 
-Perform the below tests before, during and after partition
+   Perform the below tests before, during and after partition
 
-Below are the results of test experiments:
+   Below are the results of test experiments:
 
 
-|Test No | Test Case        | Result                                                                                |
-|--------|------------------|---------------------------------------------------------------------------------------|
-|     1  | Before Partition |Data is consistent across all the members of the replication set                       |
-|     2  | After Partition  |Data is not consistent on the partitioned member                                       |
-|     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
+   |Test No | Test Case        | Result                                                                                |
+   |--------|------------------|---------------------------------------------------------------------------------------|
+   |     1  | Before Partition |Data is consistent across all the members of the replication set                       |
+   |     2  | After Partition  |Data is not consistent on the partitioned member                                       |
+   |     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
 
 
 

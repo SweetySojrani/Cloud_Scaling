@@ -189,7 +189,7 @@ eg. <Public_ip_address> Primary
    Now that the network partition is created, we can test the experiments on consistency of data.
    
 
-### Week4: (04-Nov-18- 10-Nov-18)
+### Week5: (04-Nov-18- 10-Nov-18)
 
 1. Now, we have one primary and 4 secondary members in the replication set. 
   Create a document in the primary mongodb instance:

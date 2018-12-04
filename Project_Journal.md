@@ -252,45 +252,45 @@ eg. <Public_ip_address> Primary
    
    In US West(N California) region
    1. Launch Riak AMI from AWS Marketplace
-     i. AMI:              Riak KV 2.2 Series
-     ii. Instance Type:   t2.micro
-     iii. VPC:            CMPE281_RiakKV
-     iv. Network:         public subnet
-     v. Auto Public IP:  no
-     vi. Security Group:  riak-cluster 
-     vii. SG Open Ports:   (see below)
-     viii. Key Pair:        cmpe281_KeySept4
+       i. AMI:              Riak KV 2.2 Series
+       ii. Instance Type:   t2.micro
+       iii. VPC:            CMPE281_RiakKV
+       iv. Network:         public subnet
+       v. Auto Public IP:  no
+       vi. Security Group:  riak-cluster 
+       vii. SG Open Ports:   (see below)
+       viii. Key Pair:        cmpe281_KeySept4
 
-    2. Assign below rules to the Security group
-       Riak Cluster Security Group (Open Ports):
+   2. Assign below rules to the Security group
+      Riak Cluster Security Group (Open Ports):
        - 22 (SSH)
        - 8087 (Riak Protocol Buffers Interface)
        - 8098 (Riak HTTP Interface)
 
-       You will need to add additional rules within this security group to allow your Riak instances to communicate. For each port range        below, create a new Custom TCP rule with the source set to the current security group ID (found on the Details tab).
+      You will need to add additional rules within this security group to allow your Riak instances to communicate. For each port range       below, create a new Custom TCP rule with the source set to the current security group ID (found on the Details tab).
        - Port range: 4369
         - Port range: 6000-7999
         - Port range: 8099
         - Port range: 9080
    
-    3. Create 2 instances in this VPC. Name them Riak1 and Riak2.\
-       Similarly Create 3 instances in other region US West (Oregon). Name them Riak3, Riak4 and Riak5.
-       Now, Riak1 is the admin of the cluster. SSh to Riak1 and Riak2.\
+   3. Create 2 instances in this VPC. Name them Riak1 and Riak2.\
+      Similarly Create 3 instances in other region US West (Oregon). Name them Riak3, Riak4 and Riak5.
+      Now, Riak1 is the admin of the cluster. SSh to Riak1 and Riak2.\
        
-       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak1_ip_address>\
-       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak2_ip_address>
+      ssh -i cmpe281_KeySept4.pem ec2-user@<Riak1_ip_address>\
+      ssh -i cmpe281_KeySept4.pem ec2-user@<Riak2_ip_address>
        
-       In Riak1: 
+      In Riak1: 
        - Start Riak
        sudo riak start
         
-       In Riak2:
+      In Riak2:
        - Start Riak\
        sudo riak start
        
        - Stage to the admin cluster on Riak1\
        sudo riak-admin cluster join riak@<Riak1_private_ip>
-       - This was giving an error that the node is not reachable. On investigating found that below two lines needs to be added to               riak.conf in all the nodes which ressolved the error.\
+       - This was giving an error that the node is not reachable. On investigating found that below two lines needs to be added to                riak.conf in all the nodes which ressolved the error.\
        erlang.distribution.port_range.minimum = 6000\
        erlang.distribution.port_range.maximum = 7999
        
@@ -307,13 +307,13 @@ eg. <Public_ip_address> Primary
    
        With this Riak2 has joined the cluster with Riak1. 
      
-     4. In order to add Riak3, Riak4 and Riak5 to the cluster, we need to perform below steps to perform VPC peering that will allow             communication between the subnet of VPC in California and the subnet of VPC in Oregon as per the topology created. \
-        A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using               private IPv4 addresses or IPv6 addresses. Instances in either VPC can communicate with each other as if they are within the same         network.
+   4. In order to add Riak3, Riak4 and Riak5 to the cluster, we need to perform below steps to perform VPC peering that will allow             communication between the subnet of VPC in California and the subnet of VPC in Oregon as per the topology created. \
+      A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using               private IPv4 addresses or IPv6 addresses. Instances in either VPC can communicate with each other as if they are within the same         network.
         - Create VPC peering connection in US West (Oregon) with 'VPC_Riak_Oregon' as source and target as Region: US West(N California)           VPC Id of 'CMPE281_RiakKV' . Note that the subnet group of both the VPC should be different. Otherwise the VPC peering will             fail due to subnet overlap error.
         - After submitting the VPC peering request in Oregon region. Switch to California region, review the VPC peering request and               accept it.
         - Once the VPC peering was established I tried to join Riak3, Riak4 and Riak5 from Oregon to Riak1 in California. However, the             node of Riak1 was still not reachable to them. On investigating I found that the route tables did not have an entry to send             data to the VPC through VPC Peering. Hence , I added route table mapping in both the VPCs. After which the network connection           was established successfully and Riak3, Riak4 and Riak5 were able to join the cluster with Riak1 and Riak2.
          
-         Now, I will test the normal behaviour of the cluster before the network partition is established. 
+       Now, I will test the normal behaviour of the cluster before the network partition is established. 
        
         
        

@@ -227,7 +227,7 @@ eg. <Public_ip_address> Primary
    |     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
 
 
-### Week4: (15-Nov-18- 22-Nov-18)
+### Week4: (11-Nov-18- 17-Nov-18)
 
 3. Recover from the Network Partition. Use the below commands to delete the iptables rules that were created in Step2 to create Network    partition. 
 
@@ -235,4 +235,16 @@ eg. <Public_ip_address> Primary
    sudo iptables -D INPUT 1
 
    Once the partition is recovered , the Secondary2 instance will become available in the replication set again and read the new            document from Primary instance that was created after the Network Partition.
+   
+   
+   ## AP System with Riak Database
+   
+   ### Week5: (18-Nov-18- 24-Nov-18)
+   
+   To benefit from the architectural principle that underpin Riak's availability, fault-tolerance, and scaling properties we should use    minimum of 5 nodes. So we have considered the topology with 5 Riak Nodes. Riak is a masterless system.
+   
+   
+   
+   
+  
   

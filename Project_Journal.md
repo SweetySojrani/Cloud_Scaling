@@ -252,14 +252,14 @@ eg. <Public_ip_address> Primary
    
    In US West(N California) region
    1. Launch Riak AMI from AWS Marketplace
-       i. AMI:              Riak KV 2.2 Series
-       ii. Instance Type:   t2.micro
-       iii. VPC:            CMPE281_RiakKV
-       iv. Network:         public subnet
-       v. Auto Public IP:  no
-       vi. Security Group:  riak-cluster 
-       vii. SG Open Ports:   (see below)
-       viii. Key Pair:        cmpe281_KeySept4
+       - AMI:              Riak KV 2.2 Series
+       - Instance Type:   t2.micro
+       - VPC:            CMPE281_RiakKV
+       - Network:         public subnet
+       - Auto Public IP:  no
+       - Security Group:  riak-cluster 
+       - SG Open Ports:   (see below)
+       - Key Pair:        cmpe281_KeySept4
 
    2. Assign below rules to the Security group
       Riak Cluster Security Group (Open Ports):

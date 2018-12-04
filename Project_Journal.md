@@ -332,5 +332,7 @@ eg. <Public_ip_address> Primary
   
       2. Let's create the network partition int the cluster. we will break the connection between both the VPC which will split the               Riak Cluster into two. 
       
+      ![riak_network_partition](https://user-images.githubusercontent.com/42895383/49473635-751a2380-f7c7-11e8-9649-4fd7f11eccbe.png)
+      
       
       

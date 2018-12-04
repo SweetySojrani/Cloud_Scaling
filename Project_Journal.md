@@ -245,20 +245,21 @@ eg. <Public_ip_address> Primary
      
    To benefit from the architectural principle that underpin Riak's availability, fault-tolerance, and scaling properties we should use    minimum of 5 nodes. So we have considered below topology with 5 Riak Nodes. 
    
-   Create Riak Cluster in AWS with below steps:
    
    ![riak_cluster_architecture](https://user-images.githubusercontent.com/42895383/49471755-8ad91a00-f7c2-11e8-84dd-7c63c9e7ad04.png)
    
+   Create Riak Cluster in AWS with below steps:
+   
    In US West(N California) region
    1. Launch Riak AMI from AWS Marketplace
-     i. AMI:             Riak KV 2.2 Series
+     i. AMI:              Riak KV 2.2 Series
      ii. Instance Type:   t2.micro
-     iii. VPC:             cmpe281
-     iv. Network:         private subnet
-     5. Auto Public IP:  no
-     6. Security Group:  riak-cluster 
-     7. SG Open Ports:   (see below)
-     8. Key Pair:        cmpe281-us-west-1
+     iii. VPC:            CMPE281_RiakKV
+     iv. Network:         public subnet
+     v. Auto Public IP:  no
+     vi. Security Group:  riak-cluster 
+     vii. SG Open Ports:   (see below)
+     viii. Key Pair:        cmpe281_KeySept4
 
     2. Assign below rules to the Security group
        Riak Cluster Security Group (Open Ports):

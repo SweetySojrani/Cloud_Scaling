@@ -326,13 +326,37 @@ eg. <Public_ip_address> Primary
           
           
          - Query the bucket in each node of Riak Cluster to find the value of key1. The value will be consistent across the nodes.
-           curl -i http://Ip address of node:8098/buckets/bucket/keys/key1
+           curl -i http://<Ip address of node:8098>/buckets/bucket/keys/key1
        
        
   
-      2. Let's create the network partition int the cluster. we will break the connection between both the VPC which will split the               Riak Cluster into two. 
+      2. Create the network partition int the cluster. we will break the connection between both the VPC which will split the                    Riak Cluster into two. 
       
       ![riak_network_partition](https://user-images.githubusercontent.com/42895383/49473635-751a2380-f7c7-11e8-9649-4fd7f11eccbe.png)
       
-      
-      
+        - create a new key in Riak1
+          curl -v -XPUT -d '{"Model":"Nosql"}' \
+          http://<Ip address of node:8098>/buckets/bucket/keys/key2?returnbody=true
+          
+          - create a new key in Riak3
+          curl -v -XPUT -d '{"Model":"Masterless"}' \
+          http://<Ip address of node:8098>/buckets/bucket/keys/key2?returnbody=true
+          
+          
+         - Query the bucket in each node of Riak Cluster to find the value of key1.
+           curl -i http://<Ip address of node:8098>/buckets/bucket/keys/key2
+           
+           On querying, I found that the Riak1 and Riak2 split showed key2 value as '{"Model":"Nosql"}'
+           and the Riak cluster split of Riak3, Riak4 and Riak5 showed key2 value as '{"Model":"Masterless"}'
+           
+        Since Riak is highly available. It accepts read and write requests from cluster nodes in both the splits inspite the splits             being inconsistent. Riak is an AP system which is why it compromises consistency over availability during a network partition.
+        
+        3. Recover the cluster from the network parition by entering the removed route table mapping of VPC Peering.
+           Once the connection is established again, the new keys created propogate through the cluster.
+           
+           Riak KV uses logical clocks, called dotted version vectors (DVVs), to ensure data accuracy. As data is updated, DVVs provide            a causal history that makes it possible to determine the precise order of events. If concurrent writes cannot be resolved,              DVVs ensure that all writes are stored as siblings. These sibling versions provide information that allows for conflict                  resolution logic when reading data. DVVs play an important role in minimizing the need for client-side conflict resolution.              (referred from Basho.com)
+           
+           Since, both the splits of Riak Cluster has now two different values for Key2. Riak resolves this write conflict using DVV and            the write that was last made in the splits takes precedence.So, the key2 value of '{"Model":"Masterless"}' is propogated                across the Riak cluster nodes. So the Cluster achieves eventual consistency after the Network Parition was recovered.
+           
+           
+        

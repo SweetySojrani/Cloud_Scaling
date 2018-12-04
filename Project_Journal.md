@@ -241,7 +241,9 @@ eg. <Public_ip_address> Primary
    
    ### Week5: (18-Nov-18- 24-Nov-18)
    
-   To benefit from the architectural principle that underpin Riak's availability, fault-tolerance, and scaling properties we should use    minimum of 5 nodes. So we have considered the topology with 5 Riak Nodes. Riak is a masterless system.
+   Riak is explicitly designed to expect server and network failure. Riak is a masterless system meaning any server can respond to read    or write requests. If one fails, others will continue to service client requests. Because Riak’s system allows for reads and writes      when multiple servers are offline or otherwise unreachable, data may not always be consistent across the environment (usually only      for a few milliseconds). However, through self-healing mechanisms like read repair and Active Anti-Entropy, all updates will            propagate to all servers making data eventually consistent. Riak is suitable for many use cases where high availability is more          important than strict consistency. (Referred from Basho.com)
+     
+   To benefit from the architectural principle that underpin Riak's availability, fault-tolerance, and scaling properties we should use    minimum of 5 nodes. So we have considered below topology with 5 Riak Nodes. 
    
    
    

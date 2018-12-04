@@ -247,6 +247,7 @@ eg. <Public_ip_address> Primary
    
    Create Riak Cluster in AWS with below steps:
    
+   ![riak_cluster_architecture](https://user-images.githubusercontent.com/42895383/49471755-8ad91a00-f7c2-11e8-84dd-7c63c9e7ad04.png)
    
    In US West(N California) region
    1. Launch Riak AMI from AWS Marketplace

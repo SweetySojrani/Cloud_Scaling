@@ -309,15 +309,28 @@ eg. <Public_ip_address> Primary
      
    4. In order to add Riak3, Riak4 and Riak5 to the cluster, we need to perform below steps to perform VPC peering that will allow             communication between the subnet of VPC in California and the subnet of VPC in Oregon as per the topology created. \
       A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using               private IPv4 addresses or IPv6 addresses. Instances in either VPC can communicate with each other as if they are within the same         network.
-        - Create VPC peering connection in US West (Oregon) with 'VPC_Riak_Oregon' as source and target as Region: US West(N California)           VPC Id of 'CMPE281_RiakKV' . Note that the subnet group of both the VPC should be different. Otherwise the VPC peering will             fail due to subnet overlap error.
-        - After submitting the VPC peering request in Oregon region. Switch to California region, review the VPC peering request and               accept it.
-        - Once the VPC peering was established I tried to join Riak3, Riak4 and Riak5 from Oregon to Riak1 in California. However, the             node of Riak1 was still not reachable to them. On investigating I found that the route tables did not have an entry to send             data to the VPC through VPC Peering. Hence , I added route table mapping in both the VPCs. After which the network connection           was established successfully and Riak3, Riak4 and Riak5 were able to join the cluster with Riak1 and Riak2.
+      - Create VPC peering connection in US West (Oregon) with 'VPC_Riak_Oregon' as source and target as Region: US West(N California)           VPC Id of 'CMPE281_RiakKV' . Note that the subnet group of both the VPC should be different. Otherwise the VPC peering will             fail due to subnet overlap error.
+      - After submitting the VPC peering request in Oregon region. Switch to California region, review the VPC peering request and               accept it.
+      - Once the VPC peering was established I tried to join Riak3, Riak4 and Riak5 from Oregon to Riak1 in California. However, the             node of Riak1 was still not reachable to them. On investigating I found that the route tables did not have an entry to send             data to the VPC through VPC Peering. Hence , I added route table mapping in both the VPCs. After which the network connection           was established successfully and Riak3, Riak4 and Riak5 were able to join the cluster with Riak1 and Riak2.
          
-       Now, I will test the normal behaviour of the cluster before the network partition is established. 
+      Now, I will test the normal behaviour of the cluster before the network partition is established. 
        
+      1. Create a key value pair in Riak1 and test if the pair is read from all the nodes of the cluster.
         
-       
+        - Below command will show a bucket in buckets in Riak1
+          curl -i http://<public ip of Riak1>:8098/buckets?buckets=true
+        
+        - create a key in bucket
+          curl -v -XPUT -d '{"db":"riak"}' \
+          http://<public ip of Riak1>:8098/buckets/bucket/keys/key1?returnbody=true
+          
+          
+         - Query the bucket in each node of Riak Cluster to find the value of key1. The value will be consistent across the nodes.
+           curl -i http://Ip address of node:8098/buckets/bucket/keys/key1
        
        
   
-  
+      2. Let's create the network partition int the cluster. we will break the connection between both the VPC which will split the               Riak Cluster into two. 
+      
+      
+      

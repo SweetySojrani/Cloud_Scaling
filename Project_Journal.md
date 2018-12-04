@@ -261,21 +261,21 @@ eg. <Public_ip_address> Primary
 
     2. Assign below rules to the Security group
        Riak Cluster Security Group (Open Ports):
-       - 22 (SSH)\
-       - 8087 (Riak Protocol Buffers Interface)\
+       - 22 (SSH)
+       - 8087 (Riak Protocol Buffers Interface)
        - 8098 (Riak HTTP Interface)
 
        You will need to add additional rules within this security group to allow your Riak instances to communicate. For each port range        below, create a new Custom TCP rule with the source set to the current security group ID (found on the Details tab).
-       - Port range: 4369\
-        - Port range: 6000-7999\
-        - Port range: 8099\
+       - Port range: 4369
+        - Port range: 6000-7999
+        - Port range: 8099
         - Port range: 9080
    
     3. Create 2 instances in this VPC. Name them Riak1 and Riak2.
        Similarly Create 3 instances in other region US West (Oregon). Name them Riak3, Riak4 and Riak5.
-       Now, Riak one is the admin of the cluster. SSh to Riak1 and Riak2.
+       Now, Riak one is the admin of the cluster. SSh to Riak1 and Riak2.\
        
-       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak1_ip_address>
+       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak1_ip_address>\
        ssh -i cmpe281_KeySept4.pem ec2-user@<Riak2_ip_address>
        
        In Riak1: 

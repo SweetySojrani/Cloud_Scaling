@@ -245,8 +245,68 @@ eg. <Public_ip_address> Primary
      
    To benefit from the architectural principle that underpin Riak's availability, fault-tolerance, and scaling properties we should use    minimum of 5 nodes. So we have considered below topology with 5 Riak Nodes. 
    
+   Create Riak Cluster in AWS with below steps:
    
    
+   In US West(N California) region
+   1. Launch Riak AMI from AWS Marketplace
+     i. AMI:             Riak KV 2.2 Series
+     ii. Instance Type:   t2.micro
+     iii. VPC:             cmpe281
+     iv. Network:         private subnet
+     5. Auto Public IP:  no
+     6. Security Group:  riak-cluster 
+     7. SG Open Ports:   (see below)
+     8. Key Pair:        cmpe281-us-west-1
+
+    2. Assign below rules to the Security group
+       Riak Cluster Security Group (Open Ports):
+       - 22 (SSH)
+       - 8087 (Riak Protocol Buffers Interface)
+       - 8098 (Riak HTTP Interface)
+
+       You will need to add additional rules within this security group to allow your Riak instances to communicate. For each port range        below, create a new Custom TCP rule with the source set to the current security group ID (found on the Details tab).
+        - Port range: 4369
+        - Port range: 6000-7999
+        - Port range: 8099
+        - Port range: 9080
    
+    3. Create 2 instances in this VPC. Name them Riak1 and Riak2.
+       Similarly Create 3 instances in other region US West (Oregon). Name them Riak3, Riak4 and Riak5.
+       Now, Riak one is the admin of the cluster. SSh to Riak1 and Riak2.
+       
+       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak1_ip_address>
+       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak2_ip_address>
+       
+       In Riak1: 
+       --Start Riak
+       sudo riak start
+        
+       In Riak2:
+        --Start Riak
+       sudo riak start
+       
+       -- Stage to the admin cluster on Riak1
+       sudo riak-admin cluster join riak@<Riak1_private_ip>
+       -- This was giving an error that the node is not reachable. On investigating found that below two lines needs to be added to               riak.conf in all the nodes which ressolved the error.
+       erlang.distribution.port_range.minimum = 6000 
+       erlang.distribution.port_range.maximum = 7999
+       
+       
+       In Riak1
+       -- Check the cluster plan which will show the staged changes with Riak2 available to join the admin cluster
+       sudo riak-admin cluster plan
+       
+       -- the below command will show that Riak2 is available to join the cluster.
+       sudo riak-admin cluster status
+   
+       -- this command will commit the joining Riak2 node to valid status 
+       sudo riak-admin cluster commit
+   
+       With this Riak2 has joined the cluster with Riak1. 
+       In order to add Riak3, Riak4 and Riak5 to the cluster, we need to perform below steps to perform VPC peering that will allow            communication between the subnet of VPC in California and the subnet of VPC in Oregon as per the topology created.
+       
+       
+       
   
   

@@ -261,14 +261,14 @@ eg. <Public_ip_address> Primary
 
     2. Assign below rules to the Security group
        Riak Cluster Security Group (Open Ports):
-       - 22 (SSH)/
-       - 8087 (Riak Protocol Buffers Interface)/
+       - 22 (SSH)\
+       - 8087 (Riak Protocol Buffers Interface)\
        - 8098 (Riak HTTP Interface)
 
        You will need to add additional rules within this security group to allow your Riak instances to communicate. For each port range        below, create a new Custom TCP rule with the source set to the current security group ID (found on the Details tab).
-       - Port range: 4369/
-        - Port range: 6000-7999/
-        - Port range: 8099/
+       - Port range: 4369\
+        - Port range: 6000-7999\
+        - Port range: 8099\
         - Port range: 9080
    
     3. Create 2 instances in this VPC. Name them Riak1 and Riak2.
@@ -283,24 +283,24 @@ eg. <Public_ip_address> Primary
        sudo riak start
         
        In Riak2:
-       - Start Riak
+       - Start Riak\
        sudo riak start
        
-       - Stage to the admin cluster on Riak1
+       - Stage to the admin cluster on Riak1\
        sudo riak-admin cluster join riak@<Riak1_private_ip>
-       - This was giving an error that the node is not reachable. On investigating found that below two lines needs to be added to               riak.conf in all the nodes which ressolved the error./
-       erlang.distribution.port_range.minimum = 6000/
+       - This was giving an error that the node is not reachable. On investigating found that below two lines needs to be added to               riak.conf in all the nodes which ressolved the error.\
+       erlang.distribution.port_range.minimum = 6000\
        erlang.distribution.port_range.maximum = 7999
        
        
        In Riak1
-       - Check the cluster plan which will show the staged changes with Riak2 available to join the admin cluster
+       - Check the cluster plan which will show the staged changes with Riak2 available to join the admin cluster\
        sudo riak-admin cluster plan
        
-       - the below command will show that Riak2 is available to join the cluster.
+       - the below command will show that Riak2 is available to join the cluster.\
        sudo riak-admin cluster status
    
-       - this command will commit the joining Riak2 node to valid status 
+       - this command will commit the joining Riak2 node to valid status\
        sudo riak-admin cluster commit
    
        With this Riak2 has joined the cluster with Riak1. 

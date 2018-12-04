@@ -307,7 +307,7 @@ eg. <Public_ip_address> Primary
      
      4. In order to add Riak3, Riak4 and Riak5 to the cluster, we need to perform below steps to perform VPC peering that will allow            communication between the subnet of VPC in California and the subnet of VPC in Oregon as per the topology created.
      
-       A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using private        IPv4 addresses or IPv6 addresses. Instances in either VPC can communicate with each other as if they are within the same network.
+      A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using private       IPv4 addresses or IPv6 addresses. Instances in either VPC can communicate with each other as if they are within the same network.
        
         
        

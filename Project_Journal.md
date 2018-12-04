@@ -314,7 +314,7 @@ eg. <Public_ip_address> Primary
        
        Once the VPC peering was established I tried to join Riak3, Riak4 and Riak5 from Oregon to Riak1 in California. However, the node        of Riak1 was still not reachable to them. On investigating I found that the route tables did not have an entry to send data to          the VPC through VPC Peering. Hence , I added route table mapping in both the VPCs. After which the network connection was                established successfully and Riak3, Riak4 and Riak5 were able to join the cluster with Riak1 and Riak2.
        
-       Now, I will test the normal behaviour of the cluster before the network partition is established.
+       Now, I will test the normal behaviour of the cluster before the network partition is established.  
        
        
        

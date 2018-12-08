@@ -41,8 +41,27 @@ use this secret key to create custer in AWS
 (Once the Cluster is build check the status of cluster using below command)
 - kops validate cluster
 
-(
-
-
 ![clustercreated](https://user-images.githubusercontent.com/42895383/49691796-2a6a1580-faff-11e8-963a-e4d2bd8c93fb.png)
+
+- kops validate cluster
+
+![kops_validate_cluster_run](https://user-images.githubusercontent.com/42895383/49691831-f3e0ca80-faff-11e8-84b9-259046df42ab.png)
+
+(Check the cluster nodes running as instances in AWS)
+- kubectl cluster-info
+![kubectl_cluster_info](https://user-images.githubusercontent.com/42895383/49691844-14a92000-fb00-11e8-9737-2cea5abc972c.png)
+
+
+(Now the Cluster is ready and we can deploy the kubernetes dashboard)
+- kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+( This will create the Kubernetes dashboard which can be accessed using below link:)
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+
+( This link will show the dashboard with nodes from AWS)
+![screen shot 2018-12-08 at 3 55 32 pm](https://user-images.githubusercontent.com/42895383/49691911-bd0bb400-fb01-11e8-9633-86ee14fed1d6.png)
+
+
+- Now, we can create deployment and service using yaml files in the Kubernetes cluster created on AWS.
+
 

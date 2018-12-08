@@ -6,9 +6,9 @@ Installer-based vanilla Kubernetes on EC2
 - aws configure
 - brew update && brew install kops kubectl
 - aws s3api create-bucket --bucket payment-kops-state-store --region us-west-1
+(This gives a location constraint error because the bucket needs location constraint if we use any other region than us-east-1) Below command resolved the error
 
-
-aws s3api create-bucket --bucket payment-kops-state-store --region us-west-1 --create-bucket-configuration LocationConstraint=us-west-1
+- aws s3api create-bucket --bucket payment-kops-state-store --region us-west-1 --create-bucket-configuration LocationConstraint=us-west-1
 
 
 

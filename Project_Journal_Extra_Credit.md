@@ -1,5 +1,9 @@
 # MongoDB Sharding
 
+Below is the architecture that I have implemented for testing MongoDB sharding. This architecture consists of replication of config server and sharded cluster in order to provide high availability to the cluster. This is inspired by a concept of combination of replication and sharding from Chapter 4 in the book 'NoSQL Distilled'
+
+![screen shot 2018-12-08 at 10 27 24 pm](https://user-images.githubusercontent.com/42895383/49694121-82713e00-fb38-11e8-85c3-b6c71364ee36.png)
+
 Steps followed:
 
 1. Create Config Server Replica Sets:

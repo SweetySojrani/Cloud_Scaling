@@ -167,8 +167,8 @@ Now we will enable the sharding and perform the test cases.
   use testdb\
   db.bios.ensureIndex( { _id: "hashed" } )
 
--  Create the shard in bios collection on hashed _id
-   use admin
+-  Create the shard in bios collection on hashed _id \
+   use admin \
    sh.shardCollection( "testdb.bios", { _id: "hashed" } )
 
 - In testdb insert data from the link https://github.com/paulnguyen/cmpe281/blob/master/labs/lab4/bios.js \

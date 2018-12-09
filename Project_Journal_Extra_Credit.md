@@ -1,8 +1,8 @@
-## MongoDB Sharding
+# MongoDB Sharding
 
 Steps followed:
 
-# Create Config Server Replica Sets:
+1. Create Config Server Replica Sets:
 
 Create AWS instance: config1 and config2
 AMI: Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type

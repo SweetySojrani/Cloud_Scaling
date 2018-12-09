@@ -66,8 +66,18 @@ http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-da
  Create Deployment of an api\
 kubectl create -f payment-deployment.yaml
 
+![screen shot 2018-12-08 at 4 07 42 pm](https://user-images.githubusercontent.com/42895383/49691985-7454fa80-fb03-11e8-9662-bfc6460b8a6a.png)
+
 - Create Service of the api\
  kubectl create -f payment-service.yaml
+ 
+ ![screen shot 2018-12-08 at 4 08 57 pm](https://user-images.githubusercontent.com/42895383/49691987-9cdcf480-fb03-11e8-8dd4-ca8cb87d1c91.png)
+ 
+ - Running pods from the Payment API deployment 
+ 
+ ![screen shot 2018-12-08 at 4 09 39 pm](https://user-images.githubusercontent.com/42895383/49691990-b1b98800-fb03-11e8-888a-b28a7f358db3.png)
+
+
 
 
 

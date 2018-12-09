@@ -1,3 +1,59 @@
+## MongoDB Sharding
+
+Steps followed:
+
+# Create Config Server Replica Sets:
+
+Create AWS instance: config1 and config2
+AMI: Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type
+Instance Type: t2.micro
+VPC: cmpe281
+Network: public subnet
+Auto Public IP: enable
+Security Group: mongodb-cluster
+SG Open Ports: 22, 27019
+Key Pair: cmpe281-mongo_config
+
+
+- ssh to config server1
+- sudo vi /etc/yum.repos.d/mongodb-org-4.0.repo
+Add  below lines in the file:
+
+[mongodb-org-4.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/4.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+
+- sudo yum install -y mongodb-org
+- Create directory to store configurations and metadata\
+  sudo mkdir -p /data/db
+
+- Set the ownership of this folder. Mongod runs in mongod group\
+   sudo chown -R mongod:mongod /data/db
+
+- Edit the config file with config server replica set configurations:\
+  sudo vi /etc/mongod.conf
+-- Edit the db path\
+   dbPath: /data/db
+-- Edit the bind ip line\
+   bindip: 0.0.0.0
+-- Uncomment the replication line  and add value\
+   replSetName: crs
+
+
+
+
+
+
+
+
+
+
+
+
+## Kubernetes in AWS with Kops
 
 This section is for implementing Kubernetes in AWS EC2 instances using kops. It is inspired from this link
 https://hackernoon.com/7-ways-to-do-containers-on-aws-532f812196f1

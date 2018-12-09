@@ -116,6 +116,7 @@ rs.initiate(
   }
 )
 
+![screen shot 2018-12-08 at 7 12 45 pm](https://user-images.githubusercontent.com/42895383/49694060-82bd0980-fb37-11e8-986c-bd72abb51570.png)
 
 5. Perform the step 3 and Step 4 for creating rs1 replica set with shard3 and shard4 cluster instances.
 Now we have 1 replica set of 2 config servers and 2 replica sets rs0 and rs1 of the sharded clusters.
@@ -143,20 +144,40 @@ We neeed a mongo router to route the mongo requests to shard clusters through co
 - Add the sharded clusters to the router\
   sh.addShard("rs0/shard1:27018,shard2:27018");\
   sh.addShard("rs1/shard3:27018,shard4:27018");
+  
+ - use testdb
+  
+  
+  
+
+Now we will enable the sharding and perform the test cases.
+
+- Create testdb database\
+  use testdb
+  
+- Use admin to enable sharding on testdb\
+  use admin\
+  db.runCommand({enablesharding: "testdb"})
+
+- Ensure Hashed index on _id in testdb\
+  use testdb\
+  db.bios.ensureIndex( { _id: "hashed" } )
+
+-  Create the shard in bios collection on hashed _id
+   use admin
+   sh.shardCollection( "testdb.bios", { _id: "hashed" } )
+
+- In testdb insert data from the link https://github.com/paulnguyen/cmpe281/blob/master/labs/lab4/bios.js \
+  use testdb
+  insert data
+
+- Check the distribution of the sharded data in sharded replica sets\
+  db.bios.getShardDistribution()
 
 
-- 
+![screen shot 2018-12-08 at 10 19 19 pm](https://user-images.githubusercontent.com/42895383/49694056-6d47df80-fb37-11e8-8c72-6cfae69ce5df.png)
 
-
-
-
-
-
-
-
-
-
-
+With this I have demonstrated the Sharded Cluster replica set in MongoDB which is a combination of replication and sharding. This combination provides high availability along with z axis scaling in AKF model.
 
 
 ## Kubernetes in AWS with Kops

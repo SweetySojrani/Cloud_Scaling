@@ -62,6 +62,12 @@ http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-da
 ![screen shot 2018-12-08 at 3 55 32 pm](https://user-images.githubusercontent.com/42895383/49691911-bd0bb400-fb01-11e8-9633-86ee14fed1d6.png)
 
 
-- Now, we can create deployment and service using yaml files in the Kubernetes cluster created on AWS.
+- Now, we can create deployment and service using yaml files in the Kubernetes cluster created on AWS.\
+ Create Deployment of an api\
+kubectl create -f payment-deployment.yaml
+
+- Create Service of the api\
+ kubectl create -f payment-service.yaml
+
 
 

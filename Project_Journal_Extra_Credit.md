@@ -180,7 +180,7 @@ Now we will enable the sharding and perform the test cases.
 With this I have demonstrated the Sharded Cluster replica set in MongoDB which is a combination of replication and sharding. This combination provides high availability along with z axis scaling in AKF model.
 
 
-## Kubernetes in AWS with Kops
+# Kubernetes in AWS with Kops
 
 This section is for implementing Kubernetes in AWS EC2 instances using kops. It is inspired from this link
 https://hackernoon.com/7-ways-to-do-containers-on-aws-532f812196f1

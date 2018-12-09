@@ -35,12 +35,118 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
 
 - Edit the config file with config server replica set configurations:\
   sudo vi /etc/mongod.conf
--- Edit the db path\
+- Edit the db path\
    dbPath: /data/db
--- Edit the bind ip line\
+ - Edit Port\
+   port: 27019
+- Edit the bind ip line\
    bindip: 0.0.0.0
--- Uncomment the replication line  and add value\
+- Uncomment the replication line  and add value\
    replSetName: crs
+-Uncomment the sharding line and add value\
+ clusterRole: configsvr
+
+- Run mongo after making config changes:
+sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
+
+- This will create mongo fork process at port 27019
+
+- check that mongod service is listening on port 27019\
+  sudo lsof -iTCP -sTCP:LISTEN | grep mongo
+
+-connect to mongo using port\
+ mongo -port 27019
+
+- Repeat the above step 1 for config2 
+
+2. Create the config server replica set\
+   Enter mongo shell in config1 and add replica set with config1 as primary and config2 as secondary
+
+rs.initiate(
+ {
+   _id:"crs",
+   configsvr: true,
+   members:[
+     { _id : 0, host:"config1:27019"},
+     { _id : 1, host:"config2:27019"}
+    ]
+ }
+
+
+3. Create replica sets of Sharded cluster rs0 and rs1
+   Create AMI image from Step1 config1 and edit the mongo config file.
+   
+  - ssh to shard1 instance
+   sudo vi /etc/mongod.conf
+- Edit the db path\
+   dbPath: /data/db
+ - Edit Port\
+   port: 27018
+- Edit the bind ip line\
+   bindip: 0.0.0.0
+- Uncomment the replication line  and add value\
+   replSetName: rs0
+-Uncomment the sharding line and add value\
+ clusterRole: shardsvr
+
+- Run mongo after making config changes:
+sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
+
+- This will create mongo fork process at port 27018
+
+- check that mongod service is listening on port 27018\
+  sudo lsof -iTCP -sTCP:LISTEN | grep mongo
+
+-connect to mongo using port\
+ mongo -port 27018
+
+- Repeat the above step3 for shard2 as well
+
+4. Create rs0 replica set for Shard cluster 
+
+- ssh to shard1
+- mongo -port 27018
+rs.initiate(
+ {
+   _id:"rs0",
+   members:[
+     { _id : 0, host:"shard1:27018"},
+     { _id : 1, host:"shard2:27018"}
+    ]
+  }
+)
+
+
+5. Perform the step 3 and Step 4 for creating rs1 replica set with shard3 and shard4 cluster instances.
+Now we have 1 replica set of 2 config servers and 2 replica sets rs0 and rs1 of the sharded clusters.
+
+We neeed a mongo router to route the mongo requests to shard clusters through config servers.
+
+- Create Mongo router instance from the AMI that we created after step1. 
+ 
+ sudo vi /etc/mongod.conf
+- Comment the complete Storage section
+- Edit Port\
+   port: 27017
+- Edit the bind ip line\
+   bindip: 0.0.0.0
+- Uncomment the sharding line and add value\
+   configDB: crs/config1:27019,config2:27019
+
+- Start the mongo process using\
+  sudo mongos --config /etc/mongod.conf --fork --logpath /var/log/mongodb/mongod.log
+
+- Run mongo shell\
+   mongo -port 27017
+
+
+- Add the sharded clusters to the router\
+  sh.addShard("rs0/shard1:27018,shard2:27018");\
+  sh.addShard("rs1/shard3:27018,shard4:27018");
+
+
+- 
+
 
 
 

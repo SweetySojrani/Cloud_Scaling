@@ -16,6 +16,10 @@ Below are the steps that I performed:
 
 ![bucket_created](https://user-images.githubusercontent.com/42895383/49691654-2d173b80-fafc-11e8-8177-8c261611b1fd.png)
 
+- The Bucket is created in S3 with this command.
+
+![screen shot 2018-12-08 at 5 10 25 pm](https://user-images.githubusercontent.com/42895383/49692315-44f6bb80-fb0c-11e8-8705-2bf55ec19be6.png)
+
 - aws s3api put-bucket-versioning --bucket payment-kops-state-store  --versioning-configuration Status=Enabled
 
 - sudo vi ~/.bash_profile 

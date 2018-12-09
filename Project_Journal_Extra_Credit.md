@@ -79,5 +79,7 @@ kubectl create -f payment-deployment.yaml
 
 
 
+- Kubernetes created its inbuilt load balancer and auto scale groups in the AWS along with a master and 2 worker nodes EC2 instances.
 
+Kubernetes deployed in AWS using kops is highly reliable since it will autoscale the application which are running as containers in the Kubernetes instance and also provide the Kubernetes dashboard. 
 

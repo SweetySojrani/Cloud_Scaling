@@ -47,22 +47,22 @@ sudo apt install mongodb-org=4.0.1 mongodb-org-server=4.0.1 mongodb-org-shell=4.
 
 **MongoDB Install Verification**
 
-sudo systemctl enable mongod
-sudo systemctl start mongod 
-sudo systemctl stop mongod
-sudo systemctl restart mongod
-mongod --version 
-sudo systemctl enable mongod.service
-sudo service mongod restart
+sudo systemctl enable mongod \
+sudo systemctl start mongod \
+sudo systemctl stop mongod \
+sudo systemctl restart mongod \
+mongod --version \
+sudo systemctl enable mongod.service \
+sudo service mongod restart \
 sudo service mongod status
 
 
 **MongoDB Keyfile**
-openssl rand -base64 741 > keyFile
-sudo mkdir -p /opt/mongodb
-sudo cp keyFile /opt/mongodb
-sudo chown mongodb:mongodb /opt/mongodb/keyFile
-sudo chmod 0600 /opt/mongodb/keyFile
+openssl rand -base64 741 > keyFile \
+sudo mkdir -p /opt/mongodb \
+sudo cp keyFile /opt/mongodb \
+sudo chown mongodb:mongodb /opt/mongodb/keyFile \
+sudo chmod 0600 /opt/mongodb/keyFile 
 
 **Config mongod.conf**
 

@@ -68,7 +68,7 @@ sudo chmod 0600 /opt/mongodb/keyFile
 
 sudo vi /etc/mongod.conf
 
-1.  remove or comment out bindIp: 127.0.0.1
+1.  remove or comment out bindIp: 127.0.0.1 \
     replace with bindIp: 0.0.0.0 (binds on all ips) 
 
     #network interface \
@@ -88,17 +88,17 @@ sudo vi /etc/mongod.conf
 
 4. Create mongod.service
 
-   sudo vi /etc/systemd/system/mongod.service \
+   sudo vi /etc/systemd/system/mongod.service
 
     [Unit] \
         Description=High-performance, schema-free document-oriented database \
         After=network.target
 
-    [Service]
+    [Service] \
         User=mongodb \
         ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
 
-    [Install]
+    [Install] \
         WantedBy=multi-user.target
 
 5. Enable Mongo Service
@@ -110,7 +110,7 @@ sudo vi /etc/mongod.conf
    sudo service mongod restart \
    sudo service mongod status
 
-   Save to AMI Image
+   Save to AMI Image \
    Save the EC2 instance AMI image and create 4 more EC2 instances of MongoDB
 
 

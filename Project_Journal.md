@@ -107,7 +107,7 @@ sudo vi /etc/mongod.conf
 
 6. Restart MongoDB to apply our changes
 
-   sudo service mongod restart
+   sudo service mongod restart \
    sudo service mongod status
 
    Save to AMI Image
@@ -125,7 +125,7 @@ eg. <Public_ip_address> Primary
 
 2. Update the hostname:
    - sudo hostnamectl set-hostname Primary
-   - sudo hostname -f
+   - sudo hostname -f 
    - sudo reboot
 
    Similarly update the hostname for all the secondary instances as well as Secondary1, Secondary2 and so forth
@@ -180,8 +180,8 @@ eg. <Public_ip_address> Primary
    
 4. Once the rules are added, run below commands to check the replication set status in Primary node
    mongo
-   use admin
-   db.auth('admin','xxxxx')
+   use admin \
+   db.auth('admin','xxxxx') \
    rs.status()
     
    This will show that the secondary2 node is not reachable/healthy in the replication set and hence not available.
@@ -281,7 +281,7 @@ eg. <Public_ip_address> Primary
       ssh -i cmpe281_KeySept4.pem ec2-user@<Riak2_ip_address>
        
       In Riak1: 
-       - Start Riak
+       - Start Riak \
        sudo riak start
         
       In Riak2:

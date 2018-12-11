@@ -71,31 +71,31 @@ sudo vi /etc/mongod.conf
 1.  remove or comment out bindIp: 127.0.0.1
     replace with bindIp: 0.0.0.0 (binds on all ips) 
 
-    #network interface
-    net:
-        port: 27017
+    #network interface \
+    net: \
+        port: 27017 \
         bindIp: 0.0.0.0
 
 2. Uncomment security section & add key file
 
-   security:
+   security: \
         keyFile: /opt/mongodb/keyFile
 
 3. Uncomment Replication section. Name Replica Set = cmpe281
 
-   replication:
+   replication: \
      replSetName: cmpe281
 
 4. Create mongod.service
 
-   sudo vi /etc/systemd/system/mongod.service
+   sudo vi /etc/systemd/system/mongod.service \
 
-    [Unit]
-        Description=High-performance, schema-free document-oriented database
+    [Unit] \
+        Description=High-performance, schema-free document-oriented database \
         After=network.target
 
     [Service]
-        User=mongodb
+        User=mongodb \
         ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
 
     [Install]
@@ -115,7 +115,7 @@ sudo vi /etc/mongod.conf
 
 
 **Create Replication set**
-1. Edit /etc/hosts in each EC2 Instance adding local host names for Public Ips.
+1. Edit /etc/hosts in each EC2 Instance adding local host names for Public Ips. \
    make the hostname as Primary, Secondary1,Secondary2 as per the topology
 
 - sudo nano /etc/hosts

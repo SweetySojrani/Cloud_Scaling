@@ -1,2 +1,2 @@
-# cmpe281-SweetySojrani
+# SweetySojrani
 # Personal Project respository

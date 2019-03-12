@@ -1,19 +1,4 @@
-# CMPE 281 - Personal NoSQL Project
-
-## Weekly progress and challenge
-
-### Week1: (13-Oct-18- 19-Oct-18)  
- 
-- Understanding the requirement of the project.
-- Read on the Nosql db options for CP and AP and choose one for each
-- Started with MongoDB for CP and created replication on Mongodb of 5 nodes on AWS.														
-
-
-**Challenges: How does network partition work on MongoDB Replication.
-
-### Week2: (19-Oct-18- 27-Oct-18) 
-
-- Successfully created MongoDB replication and topologyof 5 nodes to test network partition in CP.
+**Test MongoDB network partition tolerance in a cluster as CP system
 
 ![mongodb_architecture](https://user-images.githubusercontent.com/42895383/49353574-5276f600-f673-11e8-9d34-beb9348180c3.png)
 

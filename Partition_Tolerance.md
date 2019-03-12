@@ -5,7 +5,7 @@
 
 **Steps to create AP cluster of 5 nodes**
 
-**Setup MongoDB Cluster of 5 nodes**
+**1. Setup MongoDB Cluster of 5 nodes**
 
 Launch Ubuntu Server 16.04 LTS
 
@@ -100,7 +100,7 @@ sudo vi /etc/mongod.conf
    Save the EC2 instance AMI image and create 4 more EC2 instances of MongoDB
 
 
-**Create Replication set**
+**2. Create Replication set**
 1. Edit /etc/hosts in each EC2 Instance adding local host names for Public Ips. \
    make the hostname as Primary, Secondary1,Secondary2 as per the topology
 
@@ -148,13 +148,7 @@ eg. <Public_ip_address> Primary
 
    rs.status();
 
-**Next steps:** 
-- Create the test cases to find the behaviour of the cluster in different scenarios.
-- Create a network partition approach.
-
-### Week3: (28-Oct-18- 03-Nov-18)
-
-**Create Network Partition using iptables firewall**
+**3. Create Network Partition using iptables firewall**
 1. Choose a secondary instance that needs to be partitioned from rest of the replication set nodes
 
 2. List the existing iptables on the secondary2 instance using below command
@@ -174,8 +168,7 @@ eg. <Public_ip_address> Primary
     
    Now that the network partition is created, we can test the experiments on consistency of data.
    
-
-### Week5: (04-Nov-18- 10-Nov-18)
+**4. Test the behaviour of the cluster after partition. **
 
 1. Now, we have one primary and 4 secondary members in the replication set. 
   Create a document in the primary mongodb instance:
@@ -212,8 +205,6 @@ eg. <Public_ip_address> Primary
    |     2  | After Partition  |Data is not consistent on the partitioned member                                       |
    |     3  | After Recovery   |Once the partitioned member was recovered, the data became consistent again            |
 
-
-### Week4: (11-Nov-18- 17-Nov-18)
 
 3. Recover from the Network Partition. Use the below commands to delete the iptables rules that were created in Step2 to create Network    partition. 
 

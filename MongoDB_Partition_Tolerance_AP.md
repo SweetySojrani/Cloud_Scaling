@@ -9,14 +9,14 @@
 
 Launch Ubuntu Server 16.04 LTS
 
-1. AMI:             Ubuntu Server 16.04 LTS (HVM)
-2. Instance Type:   t2.micro
-3. VPC:             cmpe281
-4. Network:         public subnet
-5. Auto Public IP:  no
-6. Security Group:  mongodb-cluster 
-7. SG Open Ports:   22, 27017
-8. Key Pair:        cmpe281-us-west-1
+- AMI:             Ubuntu Server 16.04 LTS (HVM)
+- Instance Type:   t2.micro
+- VPC:             cmpe281
+- Network:         public subnet
+- Auto Public IP:  no
+- Security Group:  mongodb-cluster 
+- SG Open Ports:   22, 27017
+- Key Pair:        cmpe281-us-west-1
 
 SSH into Mongo Instance
 ssh -i <key>.pem ubuntu@<public ip>
@@ -52,28 +52,26 @@ sudo chmod 0600 /opt/mongodb/keyFile
 
 **Config mongod.conf**
 
-sudo vi /etc/mongod.conf
+i. sudo vi /etc/mongod.conf
+-  remove or comment out bindIp: 127.0.0.1 \
+   replace with bindIp: 0.0.0.0 (binds on all ips) 
 
-1.  remove or comment out bindIp: 127.0.0.1 \
-    replace with bindIp: 0.0.0.0 (binds on all ips) 
-
-    #network interface \
-    net: \
+   #network interface \
+   net: \
         port: 27017 \
         bindIp: 0.0.0.0
 
-2. Uncomment security section & add key file
+-  Uncomment security section & add key file
 
    security: \
         keyFile: /opt/mongodb/keyFile
 
-3. Uncomment Replication section. Name Replica Set = cmpe281
+-  Uncomment Replication section. Name Replica Set = cmpe281
 
    replication: \
      replSetName: cmpe281
 
-4. Create mongod.service
-
+ii.Create mongod.service
    sudo vi /etc/systemd/system/mongod.service
 
     [Unit] \
@@ -87,11 +85,11 @@ sudo vi /etc/mongod.conf
     [Install] \
         WantedBy=multi-user.target
 
-5. Enable Mongo Service
+iii.Enable Mongo Service
 
-   sudo systemctl enable mongod.service
+    sudo systemctl enable mongod.service
 
-6. Restart MongoDB to apply our changes
+-  Restart MongoDB to apply our changes
 
    sudo service mongod restart \
    sudo service mongod status
